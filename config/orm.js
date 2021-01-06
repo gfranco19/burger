@@ -1,5 +1,5 @@
 // Import MySQL connection.
-var connection = require("../config/connection");
+var connection = require("../config/connection.js");
 
 // Helper function for SQL syntax.
 // Let's say we want to pass 3 values into the mySQL query.
@@ -25,11 +25,15 @@ function objToSql(ob) {
     var value = ob[key];
     // check to skip hidden properties
     if (Object.hasOwnProperty.call(ob, key)) {
-      // if string with spaces, add quotations (doudble double => 'double double')
-      arr.push(key + "=" + ob[key]);
+      // if string with spaces, add quotations (Lana Del Grey => 'Lana Del Grey')
+      if (typeof value === "string" && value.indexOf(" ") >= 0) {
+        value = "'" + value + "'";
       }
-  
+      // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
+      // e.g. {devoured: true} => ["devoured=true"]
+      arr.push(key + "=" + value);
     }
+  }
 
   // translate array of strings to a single comma-separated string
   return arr.toString();
@@ -66,7 +70,7 @@ var orm = {
       cb(result);
     });
   },
-  // An example of objColVals would be {name: panther, eaten: true}
+  // An example of objColVals would be {name: panther, devoured: true}
   update: function(table, objColVals, condition, cb) {
     var queryString = "UPDATE " + table;
 
@@ -84,11 +88,16 @@ var orm = {
       cb(result);
     });
   },
-  delete: function(table,condition, cb) {
-    var query = "DELETE FROM " + table + " WHERE "+ condition;
-    console.log("This is the query", query);
-    connection.query(query, function(err, result){
-      if(err) throw err;
+  delete: function(table, condition, cb) {
+    var queryString = "DELETE FROM " + table;
+    queryString += " WHERE ";
+    queryString += condition;
+
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+
       cb(result);
     });
   }

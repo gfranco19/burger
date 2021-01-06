@@ -1,9 +1,7 @@
---create table
+INSERT INTO burgers (name) VALUES ('BLT');
+INSERT INTO burgers (name) VALUES ('Super Bacon');
+INSERT INTO burgers (name, devoured) VALUES ('NoobBurger', true);
+INSERT INTO burgers (name, devoured) VALUES ('GhostPepperBurger', true);
+INSERT INTO burgers (name, devoured) VALUES ('Veganator', true);
+INSERT INTO burgers (name) VALUES ('TrippleCheese');
 
-CREATE TABLE burgers
-(
-	id int NOT NULL AUTO_INCREMENT,
-	name varchar(255) NOT NULL,
-	eaten BOOLEAN DEFAULT false,
-	PRIMARY KEY (id)
-);
