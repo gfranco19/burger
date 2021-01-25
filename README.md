@@ -16,4 +16,4 @@
 
 * javascript
 
-* [Heroku](https://quiet-tundra-23221.herokuapp.com/)
+* [Heroku](https://burger-app-hdb.herokuapp.com/)
